@@ -56,7 +56,6 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* ===== FONDO 3D ANIMADO (SOLO COLORES CAFÉ) ===== */
     #canvas-bg {
       position: fixed;
       top: 0;
@@ -68,16 +67,9 @@
       opacity: 0.4;
     }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--cafe-crema);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--cafe-medio);
-      border-radius: 10px;
-    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--cafe-crema); }
+    ::-webkit-scrollbar-thumb { background: var(--cafe-medio); border-radius: 10px; }
 
     .container {
       max-width: 1280px;
@@ -87,7 +79,6 @@
       z-index: 2;
     }
 
-    /* ===== TOGGLE MODO OSCURO ===== */
     .theme-toggle {
       position: fixed;
       bottom: 30px;
@@ -111,11 +102,7 @@
       transform: scale(1.1) rotate(15deg);
       background: var(--cafe-capuchino);
     }
-    .theme-toggle:active {
-      transform: scale(0.95);
-    }
 
-    /* ===== HEADER ===== */
     header {
       background: var(--header-bg);
       backdrop-filter: blur(16px);
@@ -124,7 +111,6 @@
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(210, 170, 130, 0.4);
-      transition: background 0.3s ease;
     }
     .navbar {
       display: flex;
@@ -141,19 +127,9 @@
       background-clip: text;
       color: transparent;
       text-shadow: 0 2px 15px rgba(201, 126, 74, 0.4);
-      letter-spacing: -0.5px;
-      transition: all 0.3s;
     }
-    .logo span {
-      color: #e6cbb0;
-      font-size: 0.8rem;
-      font-weight: 400;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
+    .logo span { color: #e6cbb0; font-size: 0.8rem; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
     .nav-links a {
       text-decoration: none;
       font-weight: 600;
@@ -161,10 +137,7 @@
       transition: all 0.25s;
       font-size: 0.95rem;
     }
-    .nav-links a:hover {
-      color: var(--dorado-suave);
-      transform: translateY(-2px);
-    }
+    .nav-links a:hover { color: var(--dorado-suave); transform: translateY(-2px); }
     .btn-menu-nav {
       background: var(--cafe-medio);
       padding: 8px 20px;
@@ -179,7 +152,6 @@
       cursor: pointer;
     }
 
-    /* Hero sin imagen */
     .hero {
       margin-top: 100px;
       padding: 80px 0 100px;
@@ -191,10 +163,7 @@
     body.dark-mode .hero {
       background: radial-gradient(circle at 90% 20%, rgba(80, 50, 30, 0.2), rgba(40, 25, 15, 0.1));
     }
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+    .hero-content { max-width: 800px; margin: 0 auto; }
     .badge {
       background: var(--cafe-oscuro);
       display: inline-block;
@@ -246,25 +215,15 @@
       color: white;
       box-shadow: 0 10px 20px -8px #00000030;
     }
-    .btn-primary:hover {
-      background: #5A3825;
-      transform: scale(1.02) translateY(-3px);
-    }
+    .btn-primary:hover { background: #5A3825; transform: scale(1.02) translateY(-3px); }
     .btn-outline {
       background: transparent;
       border: 2px solid var(--cafe-medio);
       color: var(--text-secondary);
     }
-    .btn-outline:hover {
-      background: var(--cafe-medio);
-      color: white;
-    }
+    .btn-outline:hover { background: var(--cafe-medio); color: white; }
 
-    /* Postres cards */
-    .section-title {
-      text-align: center;
-      margin: 80px 0 40px;
-    }
+    .section-title { text-align: center; margin: 80px 0 40px; }
     .section-title h2 {
       font-size: 2.6rem;
       font-weight: 800;
@@ -308,10 +267,7 @@
       0% { border-color: rgba(224,176,127,0.2); box-shadow: 0 10px 25px -5px #b28b6f40; }
       100% { border-color: rgba(224,176,127,0.7); box-shadow: 0 20px 35px -5px #8b5e3c60, 0 0 0 2px rgba(224,176,127,0.3); }
     }
-    .card:hover {
-      transform: translateY(-12px);
-      border-color: var(--dorado-suave);
-    }
+    .card:hover { transform: translateY(-12px); border-color: var(--dorado-suave); }
     .card-img {
       height: 220px;
       background-size: cover;
@@ -319,12 +275,8 @@
       transition: transform 0.4s;
       border-bottom: 3px solid var(--cafe-capuchino);
     }
-    .card-content {
-      padding: 22px 20px 25px;
-    }
-    .card-content h3 {
-      color: var(--text-primary);
-    }
+    .card-content { padding: 22px 20px 25px; }
+    .card-content h3 { color: var(--text-primary); }
     .order-icon {
       display: inline-flex;
       align-items: center;
@@ -338,16 +290,9 @@
       margin-top: 16px;
       transition: 0.3s;
     }
-    body.dark-mode .order-icon {
-      background: var(--cafe-medio);
-      color: white;
-    }
-    .order-icon:hover {
-      background: var(--cafe-medio);
-      color: white;
-    }
+    body.dark-mode .order-icon { background: var(--cafe-medio); color: white; }
+    .order-icon:hover { background: var(--cafe-medio); color: white; }
 
-    /* CTA con texto claro */
     .cta-whatsapp {
       background: linear-gradient(115deg, #2E1B0F 0%, #4F2F1C 100%);
       margin: 80px 0;
@@ -360,18 +305,9 @@
       border: 1px solid #b28b6f;
       box-shadow: 0 30px 35px -12px #1f1308;
     }
-    .cta-text h3 {
-      color: #FCEAD8;
-      font-size: 2rem;
-    }
-    .cta-text p {
-      color: #EEDBCB;
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-    }
-    .cta-text strong {
-      color: #FFDBA5;
-    }
+    .cta-text h3 { color: #FCEAD8; font-size: 2rem; }
+    .cta-text p { color: #EEDBCB; font-size: 1.1rem; margin-bottom: 10px; }
+    .cta-text strong { color: #FFDBA5; }
     .btn-group-cta {
       display: flex;
       gap: 18px;
@@ -407,12 +343,8 @@
       color: #F5E6D6;
       border: 1px solid var(--dorado-suave);
     }
-    .btn-menu-big:hover {
-      background: #754C34;
-      transform: translateY(-3px);
-    }
+    .btn-menu-big:hover { background: #754C34; transform: translateY(-3px); }
 
-    /* Instagram con animaciones de color */
     .instagram-showcase {
       background: var(--card-bg);
       backdrop-filter: blur(8px);
@@ -463,11 +395,8 @@
       color: #F5E6D6;
       text-decoration: none;
     }
-    .btn-instagram:hover {
-      background: #C13584;
-    }
+    .btn-instagram:hover { background: #C13584; }
 
-    /* Opiniones con más detalle */
     .opiniones-section {
       background: var(--card-bg);
       backdrop-filter: blur(8px);
@@ -513,19 +442,9 @@
       font-weight: bold;
       font-size: 1.2rem;
     }
-    .testimonio-info h4 {
-      color: var(--text-primary);
-      margin-bottom: 5px;
-    }
-    .testimonio-info .stars {
-      color: #FFD700;
-      font-size: 0.9rem;
-    }
-    .testimonio-text {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-style: italic;
-    }
+    .testimonio-info h4 { color: var(--text-primary); margin-bottom: 5px; }
+    .testimonio-info .stars { color: #FFD700; font-size: 0.9rem; }
+    .testimonio-text { color: var(--text-secondary); line-height: 1.6; font-style: italic; }
     .btn-opiniones {
       background: var(--cafe-oscuro);
       padding: 16px 36px;
@@ -541,12 +460,8 @@
       box-shadow: 0 12px 18px -10px #2c1a0e;
       transition: 0.3s;
     }
-    .btn-opiniones:hover {
-      background: #A45D2E;
-      transform: scale(1.02);
-    }
+    .btn-opiniones:hover { background: #A45D2E; transform: scale(1.02); }
 
-    /* Modal para imagen agrandada */
     .lightbox {
       display: none;
       position: fixed;
@@ -614,7 +529,6 @@
 
 <canvas id="canvas-bg"></canvas>
 
-<!-- TOGGLE MODO OSCURO -->
 <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
   <i class="fas fa-moon" id="themeIcon"></i>
 </button>
@@ -641,7 +555,6 @@
 </header>
 
 <main>
-  <!-- HERO SIN IMAGEN -->
   <section class="hero">
     <div class="container hero-content">
       <div class="badge">✨ Hecho con amor y chocolate ✨</div>
@@ -654,38 +567,45 @@
     </div>
   </section>
 
-  <!-- POSTRES DESTACADOS -->
+  <!-- POSTRES DESTACADOS - AQUÍ CAMBIA LAS URLs POR TUS IMÁGENES -->
   <div class="container" id="postres">
     <div class="section-title fade-up">
       <h2>Nuestras especialidades</h2>
     </div>
     <div class="cards-grid">
-      <div class="card fade-up" data-img="https://th.bing.com/th/id/R.acdd02c006f1b6599b20a44b64bffb17?rik=AWHhRm6GqhIR2g&pid=ImgRaw&r=0">
-        <div class="card-img" style="background-image: url('https://i.postimg.cc/Dy3DnqLQ/brownie-chocolate.jpg');"></div>
+      <!-- BROWNIE -->
+      <div class="card fade-up" data-img="https://thenovicechefblog.com/wp-content/uploads/2025/01/Brownie-Recipe.jpg">
+        <div class="card-img" style="background-image: url('https://thenovicechefblog.com/wp-content/uploads/2025/01/Brownie-Recipe.jpg');"></div>
         <div class="card-content">
           <h3>Brownie</h3>
           <p>Intenso, húmedo y con chispas de chocolate belga.</p>
           <a href="https://wa.me/593967816041?text=Hola!%20Quiero%20pedir%20el%20BROWNIE" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Brownie</a>
         </div>
       </div>
-      <div class="card fade-up" data-img="https://butternutbakeryblog.com/wp-content/uploads/2022/05/crispy-chocolate-chip-cookies-stacked.jpg">
-        <div class="card-img" style="background-image: url('https://i.postimg.cc/PqRjPj0H/cookies-dulces.jpg');"></div>
+      
+      <!-- COOKIES -->
+      <div class="card fade-up" data-img="https://i.pinimg.com/originals/e4/42/dd/e442dde1808c0c60b095ddaac9c22016.jpg">
+        <div class="card-img" style="background-image: url('https://i.pinimg.com/originals/e4/42/dd/e442dde1808c0c60b095ddaac9c22016.jpg');"></div>
         <div class="card-content">
           <h3>Cookies</h3>
           <p>Crujientes por fuera, suaves por dentro.</p>
           <a href="https://wa.me/593967816041?text=¡Quiero%20ordenar%20COOKIES!" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cookies</a>
         </div>
       </div>
-      <div class="card fade-up" data-img="https://4.bp.blogspot.com/-eZFOxUOl48A/XNSi8alopvI/AAAAAAAAoyY/JZYLhozDN1QrhP6GvOXoUwxnC5_D5NfUACLcBGAs/w1200-h630-p-k-no-nu/NY-Cheesecake-1024x773.jpg">
-        <div class="card-img" style="background-image: url('https://i.postimg.cc/WbLBj9MP/cheesecake-frambuesa.jpg');"></div>
+      
+      <!-- CHEESECAKE -->
+      <div class="card fade-up" data-img="https://i.pinimg.com/originals/54/06/bc/5406bce7163a7913556d1b9dec78151e.jpg">
+        <div class="card-img" style="background-image: url('https://i.pinimg.com/originals/54/06/bc/5406bce7163a7913556d1b9dec78151e.jpg');"></div>
         <div class="card-content">
           <h3>Cheesecake</h3>
           <p>Suave, cremoso y con base de galleta.</p>
           <a href="https://wa.me/593967816041?text=Me%20encanta%20el%20CHEESECAKE" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cheesecake</a>
         </div>
       </div>
-      <div class="card fade-up" data-img="https://i.pinimg.com/originals/cc/7d/c9/cc7dc9665e62922c8e643ad42af27620.jpg">
-        <div class="card-img" style="background-image: url('https://i.postimg.cc/DZQ0gYyN/mosaico-gelatina.jpg');"></div>
+      
+      <!-- MOSAICO -->
+      <div class="card fade-up" data-img="https://i.ytimg.com/vi/kWXSLtrFcbE/maxresdefault.jpg">
+        <div class="card-img" style="background-image: url('https://i.ytimg.com/vi/kWXSLtrFcbE/maxresdefault.jpg');"></div>
         <div class="card-content">
           <h3>Mosaico</h3>
           <p>Postre tradicional de gelatinas y leche.</p>
@@ -695,7 +615,7 @@
     </div>
   </div>
 
-  <!-- CTA CON BOTÓN VER MENÚ INTEGRADO -->
+  <!-- CTA -->
   <div class="container" id="pedido">
     <div class="cta-whatsapp fade-up">
       <div class="cta-text">
@@ -733,12 +653,11 @@
       </a>
     </div>
 
-    <!-- OPINIONES CON MÁS DETALLE -->
+    <!-- OPINIONES -->
     <div class="opiniones-section fade-up">
       <h3><i class="fas fa-star"></i> Lo que dicen nuestros clientes</h3>
       <p style="margin: 20px auto; max-width: 700px; color: var(--text-secondary);">
-        La satisfacción de nuestros clientes es nuestra mayor recompensa. 
-        Descubre por qué nos eligen para endulzar sus momentos especiales.
+        La satisfacción de nuestros clientes es nuestra mayor recompensa.
       </p>
       
       <div class="testimonios-grid">
@@ -748,44 +667,38 @@
             <div class="testimonio-info">
               <h4>María González</h4>
               <div class="stars">★★★★★</div>
-              <small style="color: var(--text-secondary);">Hace 2 días</small>
+              <small>Hace 2 días</small>
             </div>
           </div>
-          <p class="testimonio-text">"Los brownies son INCREÍBLES. Húmedos, con el balance perfecto de chocolate. El servicio a domicilio fue rapidísimo. ¡Totalmente recomendado!"</p>
+          <p class="testimonio-text">"Los brownies son INCREÍBLES. ¡Totalmente recomendado!"</p>
         </div>
-        
         <div class="testimonio-card">
           <div class="testimonio-header">
             <div class="testimonio-avatar">C</div>
             <div class="testimonio-info">
               <h4>Carlos Mendoza</h4>
               <div class="stars">★★★★★</div>
-              <small style="color: var(--text-secondary);">Hace 5 días</small>
+              <small>Hace 5 días</small>
             </div>
           </div>
-          <p class="testimonio-text">"Pedí el cheesecake para un cumpleaños y fue un éxito total. Cremoso, fresquito y la presentación impecable. Sin duda volveré a pedir."</p>
+          <p class="testimonio-text">"El cheesecake fue un éxito total. Sin duda volveré."</p>
         </div>
-        
         <div class="testimonio-card">
           <div class="testimonio-header">
             <div class="testimonio-avatar">A</div>
             <div class="testimonio-info">
               <h4>Ana Lucía</h4>
               <div class="stars">★★★★★</div>
-              <small style="color: var(--text-secondary);">Hace 1 semana</small>
+              <small>Hace 1 semana</small>
             </div>
           </div>
-          <p class="testimonio-text">"Las cookies son una locura. Crujientes por fuera, suaves por dentro. El mosaico también delicioso. Atención excelente por WhatsApp."</p>
+          <p class="testimonio-text">"Las cookies son una locura. Atención excelente."</p>
         </div>
       </div>
       
       <a href="opiniones.html" class="btn-opiniones">
         <i class="fas fa-comment-dots"></i> Ver todas las opiniones →
       </a>
-      <p style="margin-top: 20px; color: var(--text-secondary);">
-        <i class="fas fa-trophy" style="color: #FFD700;"></i> 
-        +500 clientes satisfechos · Calificación 4.9/5
-      </p>
     </div>
   </div>
 </main>
@@ -802,8 +715,6 @@
         <a href="#postres">Postres</a>
         <a href="menu.html">Menú</a>
         <a href="opiniones.html">Opiniones</a>
-        <a href="https://www.instagram.com/dulcexpress_ec/">Instagram</a>
-        <a href="https://wa.me/593967816041">WhatsApp</a>
       </div>
     </div>
     <div class="copyright">
@@ -812,7 +723,6 @@
   </div>
 </footer>
 
-<!-- LIGHTBOX PARA IMAGEN AGRANDADA -->
 <div class="lightbox" id="lightbox">
   <span class="close-lightbox" id="closeLightbox">&times;</span>
   <img id="lightboxImg" src="" alt="postre grande">
@@ -821,12 +731,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   (function(){
-    // ========== TOGGLE MODO OSCURO ==========
+    // Toggle modo oscuro
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const body = document.body;
     
-    // Cargar tema guardado
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
@@ -837,7 +746,6 @@
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('dark-mode');
       const isDark = body.classList.contains('dark-mode');
-      
       if (isDark) {
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
@@ -849,20 +757,19 @@
       }
     });
 
-    // ========== MENU MOBILE ==========
+    // Menú mobile
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-    document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('active')));
 
-    // ========== SCROLL REVEAL ==========
+    // Scroll reveal
     const fadeElements = document.querySelectorAll('.fade-up');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.15 });
     fadeElements.forEach(el => observer.observe(el));
 
-    // ========== LIGHTBOX ==========
+    // Lightbox
     const cards = document.querySelectorAll('.card');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
@@ -872,7 +779,7 @@
       card.addEventListener('click', (e) => {
         if(e.target.closest('.order-icon')) return;
         const imgUrl = card.getAttribute('data-img');
-        if(imgUrl) {
+        if(imgUrl && imgUrl !== 'URL_DE_TU_IMAGEN_GRANDE') {
           lightboxImg.src = imgUrl;
           lightbox.style.display = 'flex';
         }
@@ -881,80 +788,48 @@
     closeBtn.addEventListener('click', () => lightbox.style.display = 'none');
     lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.style.display = 'none'; });
 
-    // ========== FONDO 3D MINIMALISTA (SOLO COLORES CAFÉ QUE SE MEZCLAN) ==========
+    // Fondo 3D
     const canvas = document.getElementById('canvas-bg');
     const scene = new THREE.Scene();
-    
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 0, 5);
-    
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     
-    // Shader personalizado para gradiente animado
-    const vertexShader = `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `;
-    
+    const vertexShader = `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
     const fragmentShader = `
       precision highp float;
       varying vec2 vUv;
       uniform float uTime;
-      
       void main() {
-        // Movimiento suave de los colores
-        float movement1 = sin(vUv.x * 2.0 + uTime * 0.3) * 0.5 + 0.5;
-        float movement2 = cos(vUv.y * 1.5 + uTime * 0.2) * 0.5 + 0.5;
-        float movement3 = sin((vUv.x + vUv.y) * 1.8 + uTime * 0.25) * 0.5 + 0.5;
-        
-        // Colores café que se mezclan
-        vec3 colorOscuro = vec3(0.12, 0.08, 0.04);     // #1F1308
-        vec3 colorMedio = vec3(0.36, 0.22, 0.14);      // #5E3A2C
-        vec3 colorClaro = vec3(0.55, 0.37, 0.20);      // #8B5E3C
-        vec3 colorCrema = vec3(0.85, 0.76, 0.65);      // #D9C2A7
-        
-        // Mezclas complejas
-        vec3 mix1 = mix(colorOscuro, colorMedio, movement1);
-        vec3 mix2 = mix(colorMedio, colorClaro, movement2);
-        vec3 mix3 = mix(colorClaro, colorCrema, movement3);
-        
-        vec3 finalColor = mix(mix1, mix2, 0.5);
-        finalColor = mix(finalColor, mix3, 0.3);
-        
-        // Añadir un poco de variación
-        finalColor += vec3(sin(vUv.x * 5.0 + uTime) * 0.02);
-        
-        gl_FragColor = vec4(finalColor, 1.0);
+        float m1 = sin(vUv.x * 2.0 + uTime * 0.3) * 0.5 + 0.5;
+        float m2 = cos(vUv.y * 1.5 + uTime * 0.2) * 0.5 + 0.5;
+        float m3 = sin((vUv.x + vUv.y) * 1.8 + uTime * 0.25) * 0.5 + 0.5;
+        vec3 c1 = vec3(0.12, 0.08, 0.04);
+        vec3 c2 = vec3(0.36, 0.22, 0.14);
+        vec3 c3 = vec3(0.55, 0.37, 0.20);
+        vec3 c4 = vec3(0.85, 0.76, 0.65);
+        vec3 mix1 = mix(c1, c2, m1);
+        vec3 mix2 = mix(c2, c3, m2);
+        vec3 mix3 = mix(c3, c4, m3);
+        vec3 final = mix(mix1, mix2, 0.5);
+        final = mix(final, mix3, 0.3);
+        gl_FragColor = vec4(final, 1.0);
       }
     `;
     
     const geometry = new THREE.PlaneGeometry(20, 20);
     const material = new THREE.ShaderMaterial({
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      uniforms: {
-        uTime: { value: 0 }
-      }
+      vertexShader, fragmentShader,
+      uniforms: { uTime: { value: 0 } }
     });
+    scene.add(new THREE.Mesh(geometry, material));
     
-    const plane = new THREE.Mesh(geometry, material);
-    scene.add(plane);
-    
-    // Animación
     let clock = new THREE.Clock();
     function animate() {
       requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
-      
-      if (material.uniforms) {
-        material.uniforms.uTime.value = elapsedTime;
-      }
-      
+      if (material.uniforms) material.uniforms.uTime.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }
     animate();

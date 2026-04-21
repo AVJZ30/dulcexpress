@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>DulceXpress | Postres Artesanales 3D</title>
+  <title>DulceXpress · Postres Artesanales</title>
   <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,15 +14,7 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #FBF6EF;
-      color: #2C1A0E;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    /* ===== PALETA CAFÉ Y VARIACIONES ===== */
+    /* ===== VARIABLES GLOBALES ===== */
     :root {
       --cafe-mas-oscuro: #1F1308;
       --cafe-oscuro: #3E2A1F;
@@ -33,10 +25,38 @@
       --cafe-claro: #D9C2A7;
       --cafe-crema: #F2E4D5;
       --dorado-suave: #E0B07F;
-      --sombra-suave: 0 25px 35px -12px rgba(31, 19, 8, 0.2);
+      --ig-gradient: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+      
+      --bg-primary: #FBF6EF;
+      --bg-secondary: #F6EDE3;
+      --text-primary: #2C1A0E;
+      --text-secondary: #4F2F1C;
+      --card-bg: rgba(255, 248, 240, 0.8);
+      --header-bg: rgba(31, 19, 8, 0.85);
+      --shadow-color: rgba(0,0,0,0.1);
     }
 
-    /* ===== FONDO 3D ANIMADO (mismo color café) ===== */
+    /* ===== MODO OSCURO ===== */
+    body.dark-mode {
+      --bg-primary: #1a0f08;
+      --bg-secondary: #241810;
+      --text-primary: #F5E6D6;
+      --text-secondary: #D9C2A7;
+      --card-bg: rgba(40, 25, 15, 0.8);
+      --header-bg: rgba(15, 8, 4, 0.95);
+      --shadow-color: rgba(255,255,255,0.05);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ===== FONDO 3D ANIMADO (SOLO COLORES CAFÉ) ===== */
     #canvas-bg {
       position: fixed;
       top: 0;
@@ -45,7 +65,7 @@
       height: 100%;
       z-index: -1;
       pointer-events: none;
-      opacity: 0.35;
+      opacity: 0.4;
     }
 
     ::-webkit-scrollbar {
@@ -67,17 +87,44 @@
       z-index: 2;
     }
 
+    /* ===== TOGGLE MODO OSCURO ===== */
+    .theme-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: var(--cafe-oscuro);
+      color: white;
+      border: 2px solid var(--dorado-suave);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      z-index: 999;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+      background: var(--cafe-capuchino);
+    }
+    .theme-toggle:active {
+      transform: scale(0.95);
+    }
+
     /* ===== HEADER ===== */
     header {
-      background: rgba(31, 19, 8, 0.85);
+      background: var(--header-bg);
       backdrop-filter: blur(16px);
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 1000;
-      transition: all 0.3s ease;
       border-bottom: 1px solid rgba(210, 170, 130, 0.4);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+      transition: background 0.3s ease;
     }
     .navbar {
       display: flex;
@@ -87,18 +134,15 @@
       flex-wrap: wrap;
     }
     .logo h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #F7E3C0, #D9A066);
+      background: linear-gradient(135deg, #C97E4A, #8B4513, #D2691E);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      transition: all 0.2s;
-      text-shadow: 0 2px 10px rgba(224,176,127,0.3);
-    }
-    .logo h1:active {
-      transform: scale(0.98);
+      text-shadow: 0 2px 15px rgba(201, 126, 74, 0.4);
+      letter-spacing: -0.5px;
+      transition: all 0.3s;
     }
     .logo span {
       color: #e6cbb0;
@@ -114,29 +158,12 @@
       text-decoration: none;
       font-weight: 600;
       color: #F5E6D6;
-      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transition: all 0.25s;
       font-size: 0.95rem;
-      position: relative;
-    }
-    .nav-links a:after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--dorado-suave);
-      transition: width 0.25s ease;
-    }
-    .nav-links a:hover:after {
-      width: 100%;
     }
     .nav-links a:hover {
       color: var(--dorado-suave);
       transform: translateY(-2px);
-    }
-    .nav-links a:active {
-      transform: translateY(1px);
     }
     .btn-menu-nav {
       background: var(--cafe-medio);
@@ -145,52 +172,37 @@
       border: 1px solid var(--cafe-lechoso);
       font-weight: 700;
     }
-    .btn-menu-nav:after {
-      display: none;
-    }
-    .btn-menu-nav:hover {
-      background: var(--cafe-capuchino);
-      transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
     .menu-icon {
       display: none;
       font-size: 1.8rem;
       color: #F5E6D6;
       cursor: pointer;
-      transition: transform 0.1s;
-    }
-    .menu-icon:active {
-      transform: scale(0.9);
     }
 
-    /* Hero Section */
+    /* Hero sin imagen */
     .hero {
       margin-top: 100px;
-      padding: 60px 0 80px;
-      background: radial-gradient(circle at 90% 20%, rgba(255,241,226,0.7), rgba(244,226,208,0.5));
+      padding: 80px 0 100px;
+      background: radial-gradient(circle at 90% 20%, rgba(255,241,226,0.15), rgba(244,226,208,0.08));
       border-radius: 0 0 60px 60px;
       backdrop-filter: blur(2px);
-      position: relative;
-      z-index: 5;
+      text-align: center;
     }
-    .hero-grid {
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      flex-wrap: wrap;
+    body.dark-mode .hero {
+      background: radial-gradient(circle at 90% 20%, rgba(80, 50, 30, 0.2), rgba(40, 25, 15, 0.1));
     }
-    .hero-content .badge {
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .badge {
       background: var(--cafe-oscuro);
       display: inline-block;
-      padding: 8px 20px;
+      padding: 8px 24px;
       border-radius: 40px;
       color: #FFE5C8;
       font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 1.2rem;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
       animation: pulseBadge 2.5s infinite;
     }
     @keyframes pulseBadge {
@@ -199,17 +211,14 @@
       100% { box-shadow: 0 0 0 0 rgba(224,176,127,0); }
     }
     .hero-content h1 {
-      font-size: 3.6rem;
+      font-size: 3.8rem;
       font-weight: 800;
-      line-height: 1.2;
-      color: var(--cafe-mas-oscuro);
+      color: var(--text-primary);
       margin-bottom: 1.2rem;
     }
     .hero-content h1 span {
-      color: #A45D2E;
-      border-bottom: 4px solid #C97E4A;
-      display: inline-block;
-      transition: all 0.2s;
+      color: #C97E4A;
+      border-bottom: 4px solid #D2691E;
       animation: glowText 3s infinite alternate;
     }
     @keyframes glowText {
@@ -219,20 +228,10 @@
     .btn-group {
       display: flex;
       gap: 1rem;
+      justify-content: center;
       flex-wrap: wrap;
     }
-    .btn-primary, .btn-outline, .btn-instagram, .btn-menu-big, .order-icon, .whatsapp-btn, .btn-opiniones {
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-primary:active, .btn-outline:active, .btn-instagram:active, .btn-menu-big:active, .order-icon:active, .whatsapp-btn:active, .btn-opiniones:active {
-      transform: scale(0.96);
-    }
-    .btn-primary {
-      background: var(--cafe-oscuro);
-      color: white;
+    .btn-primary, .btn-outline {
       padding: 14px 34px;
       border-radius: 60px;
       font-weight: 700;
@@ -240,45 +239,28 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 10px 20px -8px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: var(--cafe-oscuro);
+      color: white;
+      box-shadow: 0 10px 20px -8px #00000030;
     }
     .btn-primary:hover {
       background: #5A3825;
       transform: scale(1.02) translateY(-3px);
-      box-shadow: 0 22px 30px -12px rgba(62,42,31,0.5);
     }
     .btn-outline {
       background: transparent;
       border: 2px solid var(--cafe-medio);
-      color: var(--cafe-medio);
-      padding: 12px 28px;
-      border-radius: 60px;
-      font-weight: 700;
-      text-decoration: none;
-      backdrop-filter: blur(4px);
+      color: var(--text-secondary);
     }
     .btn-outline:hover {
       background: var(--cafe-medio);
       color: white;
-      transform: translateY(-3px);
-    }
-    .hero-img img {
-      max-width: 100%;
-      filter: drop-shadow(20px 20px 30px rgba(0,0,0,0.2));
-      animation: float 5s ease-in-out infinite;
-      transition: transform 0.3s;
-      border-radius: 30px;
-    }
-    .hero-img img:active {
-      transform: scale(0.98) rotate(1deg);
-    }
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-14px) rotate(1deg); }
-      100% { transform: translateY(0px) rotate(0deg); }
     }
 
-    /* Sección Postres con bordes brillantes */
+    /* Postres cards */
     .section-title {
       text-align: center;
       margin: 80px 0 40px;
@@ -286,7 +268,7 @@
     .section-title h2 {
       font-size: 2.6rem;
       font-weight: 800;
-      color: var(--cafe-mas-oscuro);
+      color: var(--text-primary);
       position: relative;
       display: inline-block;
     }
@@ -298,8 +280,6 @@
       width: 50%;
       height: 4px;
       background: linear-gradient(90deg, #BB7A45, #E6BC94, #BB7A45);
-      border-radius: 4px;
-      transition: width 0.3s;
       background-size: 200% 100%;
       animation: shimmer 3s infinite linear;
     }
@@ -307,53 +287,43 @@
       0% { background-position: 100% 0; }
       100% { background-position: -100% 0; }
     }
-
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 2rem;
       margin: 40px 0 20px;
     }
     .card {
-      background: rgba(255, 248, 240, 0.8);
+      background: var(--card-bg);
       backdrop-filter: blur(8px);
       border-radius: 36px;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      transition: all 0.4s;
+      box-shadow: 0 20px 35px -12px var(--shadow-color);
       border: 2px solid transparent;
-      position: relative;
       animation: cardGlow 4s infinite alternate;
+      cursor: pointer;
     }
     @keyframes cardGlow {
       0% { border-color: rgba(224,176,127,0.2); box-shadow: 0 10px 25px -5px #b28b6f40; }
       100% { border-color: rgba(224,176,127,0.7); box-shadow: 0 20px 35px -5px #8b5e3c60, 0 0 0 2px rgba(224,176,127,0.3); }
     }
     .card:hover {
-      transform: translateY(-16px) scale(1.01);
-      box-shadow: var(--sombra-suave);
+      transform: translateY(-12px);
       border-color: var(--dorado-suave);
-    }
-    .card:active {
-      transform: translateY(-6px) scale(0.99);
     }
     .card-img {
       height: 220px;
       background-size: cover;
       background-position: center;
-      transition: transform 0.5s ease;
+      transition: transform 0.4s;
       border-bottom: 3px solid var(--cafe-capuchino);
-    }
-    .card:hover .card-img {
-      transform: scale(1.05);
     }
     .card-content {
       padding: 22px 20px 25px;
     }
     .card-content h3 {
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--cafe-oscuro);
+      color: var(--text-primary);
     }
     .order-icon {
       display: inline-flex;
@@ -362,49 +332,67 @@
       background: var(--cafe-crema);
       padding: 10px 22px;
       border-radius: 60px;
-      color: var(--cafe-mas-oscuro);
       font-weight: 700;
       text-decoration: none;
+      color: var(--cafe-mas-oscuro);
       margin-top: 16px;
-      border: 1px solid var(--cafe-lechoso);
+      transition: 0.3s;
     }
-    .order-icon i {
-      font-size: 1.3rem;
+    body.dark-mode .order-icon {
+      background: var(--cafe-medio);
+      color: white;
     }
     .order-icon:hover {
       background: var(--cafe-medio);
       color: white;
-      transform: translateX(6px);
-      box-shadow: 0 10px 20px -8px #3e2a1f;
     }
 
-    /* CTA */
+    /* CTA con texto claro */
     .cta-whatsapp {
       background: linear-gradient(115deg, #2E1B0F 0%, #4F2F1C 100%);
       margin: 80px 0;
       border-radius: 60px;
-      padding: 50px 40px;
+      padding: 45px 40px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 2rem;
-      transition: all 0.3s;
       border: 1px solid #b28b6f;
       box-shadow: 0 30px 35px -12px #1f1308;
     }
-    .whatsapp-btn {
-      background: #25D366;
-      padding: 18px 42px;
+    .cta-text h3 {
+      color: #FCEAD8;
+      font-size: 2rem;
+    }
+    .cta-text p {
+      color: #EEDBCB;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .cta-text strong {
+      color: #FFDBA5;
+    }
+    .btn-group-cta {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .whatsapp-btn, .btn-menu-big {
+      padding: 16px 32px;
       border-radius: 60px;
       font-weight: 800;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       display: inline-flex;
       align-items: center;
-      gap: 14px;
-      color: #1e2a1f;
+      gap: 12px;
       text-decoration: none;
-      box-shadow: 0 12px 20px -8px #00000050;
+      transition: 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: #1e2a1f;
       animation: wiggle 2.2s infinite;
     }
     @keyframes wiggle {
@@ -414,21 +402,31 @@
       6%{ transform: rotate(1deg); }
       8%{ transform: rotate(0deg); }
     }
-    .whatsapp-btn:hover {
-      background: #20b859;
-      transform: scale(1.03) translateY(-4px);
-      animation: none;
+    .btn-menu-big {
+      background: var(--cafe-oscuro);
+      color: #F5E6D6;
+      border: 1px solid var(--dorado-suave);
+    }
+    .btn-menu-big:hover {
+      background: #754C34;
+      transform: translateY(-3px);
     }
 
-    .instagram-showcase, .opiniones-section {
-      background: rgba(246, 237, 227, 0.7);
+    /* Instagram con animaciones de color */
+    .instagram-showcase {
+      background: var(--card-bg);
       backdrop-filter: blur(8px);
       border-radius: 48px;
       padding: 50px 40px;
       margin: 60px 0;
       text-align: center;
-      transition: all 0.3s;
-      border: 1px solid #d9c2a7;
+      border: 2px solid transparent;
+      animation: igBorderPulse 3s infinite alternate;
+    }
+    @keyframes igBorderPulse {
+      0% { border-color: #f09433; box-shadow: 0 0 15px #f0943340; }
+      50% { border-color: #d62976; box-shadow: 0 0 25px #d6297680; }
+      100% { border-color: #962fbf; box-shadow: 0 0 15px #962fbf60; }
     }
     .insta-highlight {
       display: flex;
@@ -436,10 +434,10 @@
       justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
-      margin: 30px 0 20px;
+      margin: 30px 0;
     }
     .insta-icon-circle {
-      background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+      background: var(--ig-gradient);
       width: 80px;
       height: 80px;
       border-radius: 50%;
@@ -448,9 +446,7 @@
       justify-content: center;
       font-size: 2.8rem;
       color: white;
-      transition: transform 0.2s;
-      box-shadow: 0 10px 20px #d6297660;
-      animation: rotateGradient 6s infinite alternate;
+      animation: rotateGradient 5s infinite alternate;
     }
     @keyframes rotateGradient {
       0% { filter: hue-rotate(0deg); }
@@ -469,7 +465,66 @@
     }
     .btn-instagram:hover {
       background: #C13584;
-      transform: scale(1.03);
+    }
+
+    /* Opiniones con más detalle */
+    .opiniones-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 48px;
+      padding: 50px 40px;
+      margin: 60px 0;
+      text-align: center;
+      border: 2px solid transparent;
+      animation: opinionGlow 4s infinite alternate;
+    }
+    @keyframes opinionGlow {
+      0% { border-color: #B28B6F; box-shadow: 0 0 15px #b28b6f; }
+      100% { border-color: #E0B07F; box-shadow: 0 0 30px #e0b07f; }
+    }
+    .testimonios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 40px 0;
+    }
+    .testimonio-card {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 24px;
+      text-align: left;
+      border: 1px solid var(--cafe-lechoso);
+    }
+    .testimonio-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .testimonio-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--cafe-capuchino);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .testimonio-info h4 {
+      color: var(--text-primary);
+      margin-bottom: 5px;
+    }
+    .testimonio-info .stars {
+      color: #FFD700;
+      font-size: 0.9rem;
+    }
+    .testimonio-text {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-style: italic;
     }
     .btn-opiniones {
       background: var(--cafe-oscuro);
@@ -481,19 +536,46 @@
       gap: 14px;
       color: white;
       text-decoration: none;
-      margin-top: 20px;
-      border: none;
+      margin-top: 10px;
       font-size: 1.1rem;
       box-shadow: 0 12px 18px -10px #2c1a0e;
+      transition: 0.3s;
+    }
+    .btn-opiniones:hover {
+      background: #A45D2E;
+      transform: scale(1.02);
     }
 
-    .menu-quick {
-      background: linear-gradient(145deg, #EADBCE, #F4E5D8);
-      border-radius: 48px;
-      padding: 50px 30px;
-      text-align: center;
-      margin-bottom: 60px;
-      border: 1px solid #c9ad93;
+    /* Modal para imagen agrandada */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 30px;
+      border: 5px solid #e0b07f;
+      box-shadow: 0 0 60px #b28b6f;
+      animation: zoomIn 0.3s;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .close-lightbox {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
     }
 
     footer {
@@ -501,43 +583,41 @@
       color: #DCC7B0;
       padding: 50px 0 25px;
       margin-top: 40px;
-      position: relative;
-      z-index: 5;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #DCC7B0;
+      text-decoration: none;
+      margin-right: 20px;
     }
 
-    /* responsive */
     @media (max-width: 880px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: rgba(31, 19, 8, 0.97);
-        backdrop-filter: blur(12px);
-        padding: 20px 0;
-        border-radius: 28px;
-        margin-top: 12px;
-        gap: 1.2rem;
-      }
-      .nav-links.active { display: flex; }
+      .nav-links { display: none; }
+      .nav-links.active { display: flex; flex-direction: column; background: #1f1308f0; padding: 20px; border-radius: 20px; }
       .menu-icon { display: block; }
-      .hero-content h1 { font-size: 2.5rem; }
+      .hero-content h1 { font-size: 2.8rem; }
+      .testimonios-grid { grid-template-columns: 1fr; }
     }
-
     .fade-up {
       opacity: 0;
       transform: translateY(35px);
       transition: all 0.7s ease;
     }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
 
-<!-- FONDO 3D ANIMADO (mismo color café) -->
 <canvas id="canvas-bg"></canvas>
+
+<!-- TOGGLE MODO OSCURO -->
+<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+  <i class="fas fa-moon" id="themeIcon"></i>
+</button>
 
 <header>
   <div class="container">
@@ -561,75 +641,81 @@
 </header>
 
 <main>
+  <!-- HERO SIN IMAGEN -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="badge">✨ Hecho con amor y chocolate ✨</div>
-        <h1>El placer más <span>dulce</span> a un solo clic</h1>
-        <p>Brownies artesanales, cookies crujientes, cheesecakes cremosos y mosaicos tradicionales. Endulza tu día con DulceXpress.</p>
-        <div class="btn-group">
-          <a href="https://wa.me/593967816041?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20postres%20🥐🍫" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
-          <a href="#postres" class="btn-outline">Descubrir postres <i class="fas fa-arrow-down"></i></a>
-        </div>
-      </div>
-      <div class="hero-img">
-        <img src="https://i.postimg.cc/N0wLWjT4/dulce-express-hero.png" alt="Postres DulceXpress" onerror="this.src='https://placehold.co/500x400/DFC8B0/3E2A1F?text=DulceXpress+Postres'">
+    <div class="container hero-content">
+      <div class="badge">✨ Hecho con amor y chocolate ✨</div>
+      <h1>El placer más <span>dulce</span> a un solo clic</h1>
+      <p style="font-size:1.2rem; margin-bottom:2rem;">Brownies artesanales, cookies crujientes, cheesecakes cremosos y mosaicos tradicionales.</p>
+      <div class="btn-group">
+        <a href="https://wa.me/593967816041?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20postres%20🥐🍫" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+        <a href="#postres" class="btn-outline">Descubrir postres <i class="fas fa-arrow-down"></i></a>
       </div>
     </div>
   </section>
 
+  <!-- POSTRES DESTACADOS -->
   <div class="container" id="postres">
     <div class="section-title fade-up">
       <h2>Nuestras especialidades</h2>
     </div>
     <div class="cards-grid">
-      <div class="card fade-up delay-1">
+      <div class="card fade-up" data-img="https://i.postimg.cc/Dy3DnqLQ/brownie-chocolate.jpg">
         <div class="card-img" style="background-image: url('https://i.postimg.cc/Dy3DnqLQ/brownie-chocolate.jpg');"></div>
         <div class="card-content">
           <h3>Brownie</h3>
           <p>Intenso, húmedo y con chispas de chocolate belga.</p>
-          <a href="https://wa.me/593967816041?text=Hola!%20Quiero%20pedir%20el%20BROWNIE%20de%20DulceXpress." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Brownie</a>
+          <a href="https://wa.me/593967816041?text=Hola!%20Quiero%20pedir%20el%20BROWNIE" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Brownie</a>
         </div>
       </div>
-      <div class="card fade-up delay-2">
+      <div class="card fade-up" data-img="https://i.postimg.cc/PqRjPj0H/cookies-dulces.jpg">
         <div class="card-img" style="background-image: url('https://i.postimg.cc/PqRjPj0H/cookies-dulces.jpg');"></div>
         <div class="card-content">
           <h3>Cookies</h3>
-          <p>Crujientes por fuera, suaves por dentro. Con gotas de chocolate.</p>
-          <a href="https://wa.me/593967816041?text=¡Quiero%20ordenar%20COOKIES%20de%20DulceXpress!" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cookies</a>
+          <p>Crujientes por fuera, suaves por dentro.</p>
+          <a href="https://wa.me/593967816041?text=¡Quiero%20ordenar%20COOKIES!" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cookies</a>
         </div>
       </div>
-      <div class="card fade-up delay-3">
+      <div class="card fade-up" data-img="https://i.postimg.cc/WbLBj9MP/cheesecake-frambuesa.jpg">
         <div class="card-img" style="background-image: url('https://i.postimg.cc/WbLBj9MP/cheesecake-frambuesa.jpg');"></div>
         <div class="card-content">
           <h3>Cheesecake</h3>
-          <p>Suave, cremoso y con base de galleta. ¡Irresistible!</p>
-          <a href="https://wa.me/593967816041?text=Me%20encanta%20el%20CHEESECAKE%20de%20DulceXpress,%20quiero%20pedir." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cheesecake</a>
+          <p>Suave, cremoso y con base de galleta.</p>
+          <a href="https://wa.me/593967816041?text=Me%20encanta%20el%20CHEESECAKE" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cheesecake</a>
         </div>
       </div>
-      <div class="card fade-up delay-4">
+      <div class="card fade-up" data-img="https://i.postimg.cc/DZQ0gYyN/mosaico-gelatina.jpg">
         <div class="card-img" style="background-image: url('https://i.postimg.cc/DZQ0gYyN/mosaico-gelatina.jpg');"></div>
         <div class="card-content">
           <h3>Mosaico</h3>
-          <p>Postre tradicional de gelatinas y leche, un favorito de la casa.</p>
-          <a href="https://wa.me/593967816041?text=Quiero%20probar%20el%20MOSAICO%20de%20DulceXpress,%20por%20favor." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Mosaico</a>
+          <p>Postre tradicional de gelatinas y leche.</p>
+          <a href="https://wa.me/593967816041?text=Quiero%20probar%20el%20MOSAICO" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Mosaico</a>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- CTA CON BOTÓN VER MENÚ INTEGRADO -->
   <div class="container" id="pedido">
     <div class="cta-whatsapp fade-up">
       <div class="cta-text">
         <h3><i class="fas fa-mug-hot"></i> ¿Antojo instantáneo?</h3>
-        <p>Escoge tu postre favorito y te lo llevamos a casa. Pago contraentrega.<br> <strong>Respuesta rápida por WhatsApp</strong></p>
+        <p>Escoge tu postre favorito y te lo llevamos a casa. Pago contraentrega.</p>
+        <p><strong>Respuesta rápida por WhatsApp</strong></p>
       </div>
-      <a href="https://wa.me/593967816041?text=¡Hola%20DulceXpress!%20Quiero%20hacer%20un%20pedido%20de%20postres%20🧁🍪" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp fa-2x"></i> Pedir por WhatsApp
-      </a>
+      <div class="btn-group-cta">
+        <a href="https://wa.me/593967816041?text=¡Hola%20DulceXpress!%20Quiero%20hacer%20un%20pedido%20🧁🍪" class="whatsapp-btn" target="_blank">
+          <i class="fab fa-whatsapp fa-2x"></i> Pedir por WhatsApp
+        </a>
+        <a href="menu.html" class="btn-menu-big"><i class="fas fa-book-open"></i> Ver Menú Completo →</a>
+      </div>
+      <p style="width:100%; margin-top:20px; color:#EEDBCB; text-align:center;">
+        <i class="fab fa-whatsapp"></i> +593 96 781 6041 · <i class="fab fa-instagram"></i> @dulcexpress_ec
+      </p>
     </div>
   </div>
 
+  <!-- INSTAGRAM -->
   <div class="container">
     <div class="instagram-showcase fade-up">
       <h3><i class="fab fa-instagram"></i> Síguenos en Instagram</h3>
@@ -638,7 +724,7 @@
           <i class="fab fa-instagram"></i>
         </div>
         <div class="insta-text">
-          <p>Descubre promociones exclusivas, nuevos sabores y el behind the scenes de nuestros postres. 🍪✨</p>
+          <p>Descubre promociones exclusivas, nuevos sabores y el behind the scenes. 🍪✨</p>
           <p><strong>@dulcexpress_ec</strong></p>
         </div>
       </div>
@@ -647,21 +733,59 @@
       </a>
     </div>
 
+    <!-- OPINIONES CON MÁS DETALLE -->
     <div class="opiniones-section fade-up">
-      <h3><i class="fas fa-star"></i> Conoce las opiniones de nuestros clientes</h3>
-      <p style="margin: 20px auto; max-width: 600px;">La satisfacción de nuestros clientes es lo más importante. Descubre lo que opinan sobre nuestros postres y el servicio DulceXpress.</p>
+      <h3><i class="fas fa-star"></i> Lo que dicen nuestros clientes</h3>
+      <p style="margin: 20px auto; max-width: 700px; color: var(--text-secondary);">
+        La satisfacción de nuestros clientes es nuestra mayor recompensa. 
+        Descubre por qué nos eligen para endulzar sus momentos especiales.
+      </p>
+      
+      <div class="testimonios-grid">
+        <div class="testimonio-card">
+          <div class="testimonio-header">
+            <div class="testimonio-avatar">M</div>
+            <div class="testimonio-info">
+              <h4>María González</h4>
+              <div class="stars">★★★★★</div>
+              <small style="color: var(--text-secondary);">Hace 2 días</small>
+            </div>
+          </div>
+          <p class="testimonio-text">"Los brownies son INCREÍBLES. Húmedos, con el balance perfecto de chocolate. El servicio a domicilio fue rapidísimo. ¡Totalmente recomendado!"</p>
+        </div>
+        
+        <div class="testimonio-card">
+          <div class="testimonio-header">
+            <div class="testimonio-avatar">C</div>
+            <div class="testimonio-info">
+              <h4>Carlos Mendoza</h4>
+              <div class="stars">★★★★★</div>
+              <small style="color: var(--text-secondary);">Hace 5 días</small>
+            </div>
+          </div>
+          <p class="testimonio-text">"Pedí el cheesecake para un cumpleaños y fue un éxito total. Cremoso, fresquito y la presentación impecable. Sin duda volveré a pedir."</p>
+        </div>
+        
+        <div class="testimonio-card">
+          <div class="testimonio-header">
+            <div class="testimonio-avatar">A</div>
+            <div class="testimonio-info">
+              <h4>Ana Lucía</h4>
+              <div class="stars">★★★★★</div>
+              <small style="color: var(--text-secondary);">Hace 1 semana</small>
+            </div>
+          </div>
+          <p class="testimonio-text">"Las cookies son una locura. Crujientes por fuera, suaves por dentro. El mosaico también delicioso. Atención excelente por WhatsApp."</p>
+        </div>
+      </div>
+      
       <a href="opiniones.html" class="btn-opiniones">
         <i class="fas fa-comment-dots"></i> Ver todas las opiniones →
       </a>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="menu-quick fade-up">
-      <h3>🍫 ¿Quieres ver todas las variedades? 🍪</h3>
-      <p>En nuestro menú completo encontrarás combos, tamaños familiares y ediciones especiales. ¡Haz clic y descubre más!</p>
-      <a href="menu.html" class="btn-menu-big"><i class="fas fa-book-open"></i> Ver Menú Completo →</a>
-      <p style="margin-top: 1.5rem;"><i class="fab fa-whatsapp"></i> +593 96 781 6041 · <i class="fab fa-instagram"></i> @dulcexpress_ec</p>
+      <p style="margin-top: 20px; color: var(--text-secondary);">
+        <i class="fas fa-trophy" style="color: #FFD700;"></i> 
+        +500 clientes satisfechos · Calificación 4.9/5
+      </p>
     </div>
   </div>
 </main>
@@ -670,177 +794,171 @@
   <div class="container">
     <div class="footer-content">
       <div class="footer-logo">
-        <h3>DulceXpress</h3>
+        <h3 style="color: #D9A066;">DulceXpress</h3>
         <p>Endulzando momentos desde 2024</p>
-        <div style="margin-top: 10px;">
-          <a href="https://www.instagram.com/dulcexpress_ec/" target="_blank" style="color:#DCC7B0; font-size:1.4rem; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-          <a href="https://wa.me/593967816041" target="_blank" style="color:#DCC7B0; font-size:1.4rem;"><i class="fab fa-whatsapp"></i></a>
-        </div>
       </div>
       <div class="footer-links">
         <a href="#">Inicio</a>
         <a href="#postres">Postres</a>
         <a href="menu.html">Menú</a>
-        <a href="opiniones.html"><i class="fas fa-star"></i> Opiniones</a>
-        <a href="https://www.instagram.com/dulcexpress_ec/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://wa.me/593967816041" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="opiniones.html">Opiniones</a>
+        <a href="https://www.instagram.com/dulcexpress_ec/">Instagram</a>
+        <a href="https://wa.me/593967816041">WhatsApp</a>
       </div>
     </div>
     <div class="copyright">
-      <p>© 2025 DulceXpress – Hecho con <i class="fas fa-heart" style="color:#C97E4A;"></i> y mucha pasión. | WhatsApp: +593 96 781 6041 | IG: @dulcexpress_ec</p>
+      <p>© 2025 DulceXpress – Hecho con <i class="fas fa-heart" style="color:#C97E4A;"></i> y mucha pasión.</p>
     </div>
   </div>
 </footer>
 
+<!-- LIGHTBOX PARA IMAGEN AGRANDADA -->
+<div class="lightbox" id="lightbox">
+  <span class="close-lightbox" id="closeLightbox">&times;</span>
+  <img id="lightboxImg" src="" alt="postre grande">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
   (function(){
-    // MENU MOBILE
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    if(menuToggle) {
-      menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
+    // ========== TOGGLE MODO OSCURO ==========
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const body = document.body;
+    
+    // Cargar tema guardado
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
     }
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
-    });
-
-    // SCROLL REVEAL
-    const fadeElements = document.querySelectorAll('.fade-up');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15 });
-    fadeElements.forEach(el => observer.observe(el));
-
-    // HEADER SCROLL
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.style.background = "rgba(31, 19, 8, 0.96)";
+    
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      
+      if (isDark) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'dark');
       } else {
-        header.style.background = "rgba(31, 19, 8, 0.85)";
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'light');
       }
     });
 
-    // ===== FONDO 3D CON THREE.JS (MISMO COLOR CAFÉ) =====
+    // ========== MENU MOBILE ==========
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+    document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('active')));
+
+    // ========== SCROLL REVEAL ==========
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    fadeElements.forEach(el => observer.observe(el));
+
+    // ========== LIGHTBOX ==========
+    const cards = document.querySelectorAll('.card');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('closeLightbox');
+    
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if(e.target.closest('.order-icon')) return;
+        const imgUrl = card.getAttribute('data-img');
+        if(imgUrl) {
+          lightboxImg.src = imgUrl;
+          lightbox.style.display = 'flex';
+        }
+      });
+    });
+    closeBtn.addEventListener('click', () => lightbox.style.display = 'none');
+    lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.style.display = 'none'; });
+
+    // ========== FONDO 3D MINIMALISTA (SOLO COLORES CAFÉ QUE SE MEZCLAN) ==========
     const canvas = document.getElementById('canvas-bg');
     const scene = new THREE.Scene();
-    scene.background = null; // transparente para ver el fondo café
     
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 2, 12);
+    camera.position.set(0, 0, 5);
     
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     
-    // Luces suaves
-    const ambientLight = new THREE.AmbientLight(0x8b5e3c, 0.6);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0xe0b07f, 0.8);
-    dirLight.position.set(2, 5, 5);
-    scene.add(dirLight);
-    const backLight = new THREE.PointLight(0xb28b6f, 0.5);
-    backLight.position.set(-3, 1, 2);
-    scene.add(backLight);
+    // Shader personalizado para gradiente animado
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
     
-    // Grupo de objetos (esferas/toros) en tonos café
-    const group = new THREE.Group();
+    const fragmentShader = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uTime;
+      
+      void main() {
+        // Movimiento suave de los colores
+        float movement1 = sin(vUv.x * 2.0 + uTime * 0.3) * 0.5 + 0.5;
+        float movement2 = cos(vUv.y * 1.5 + uTime * 0.2) * 0.5 + 0.5;
+        float movement3 = sin((vUv.x + vUv.y) * 1.8 + uTime * 0.25) * 0.5 + 0.5;
+        
+        // Colores café que se mezclan
+        vec3 colorOscuro = vec3(0.12, 0.08, 0.04);     // #1F1308
+        vec3 colorMedio = vec3(0.36, 0.22, 0.14);      // #5E3A2C
+        vec3 colorClaro = vec3(0.55, 0.37, 0.20);      // #8B5E3C
+        vec3 colorCrema = vec3(0.85, 0.76, 0.65);      // #D9C2A7
+        
+        // Mezclas complejas
+        vec3 mix1 = mix(colorOscuro, colorMedio, movement1);
+        vec3 mix2 = mix(colorMedio, colorClaro, movement2);
+        vec3 mix3 = mix(colorClaro, colorCrema, movement3);
+        
+        vec3 finalColor = mix(mix1, mix2, 0.5);
+        finalColor = mix(finalColor, mix3, 0.3);
+        
+        // Añadir un poco de variación
+        finalColor += vec3(sin(vUv.x * 5.0 + uTime) * 0.02);
+        
+        gl_FragColor = vec4(finalColor, 1.0);
+      }
+    `;
     
-    // Esfera principal ondulada (con geometría esférica + ruido)
-    const sphereGeo = new THREE.SphereGeometry(2.0, 64, 32);
-    const sphereMat = new THREE.MeshStandardMaterial({ 
-      color: 0xb28b6f, 
-      roughness: 0.3, 
-      metalness: 0.05,
-      emissive: new THREE.Color(0x4f2f1c),
-      emissiveIntensity: 0.2,
-      wireframe: false,
-      transparent: true,
-      opacity: 0.55
+    const geometry = new THREE.PlaneGeometry(20, 20);
+    const material = new THREE.ShaderMaterial({
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      uniforms: {
+        uTime: { value: 0 }
+      }
     });
-    const mainSphere = new THREE.Mesh(sphereGeo, sphereMat);
-    mainSphere.position.y = 0.5;
-    group.add(mainSphere);
     
-    // Toroide decorativo (anillo café)
-    const torusGeo = new THREE.TorusGeometry(2.8, 0.25, 20, 100);
-    const torusMat = new THREE.MeshStandardMaterial({ color: 0x8b5e3c, roughness: 0.4, emissive: new THREE.Color(0x3e2a1f), emissiveIntensity: 0.15 });
-    const torus = new THREE.Mesh(torusGeo, torusMat);
-    torus.rotation.x = Math.PI / 2;
-    torus.rotation.y = 0.8;
-    torus.position.y = 0.8;
-    group.add(torus);
-    
-    // Pequeñas esferas flotantes (como migas de chocolate)
-    for(let i = 0; i < 18; i++) {
-      const small = new THREE.Mesh(new THREE.SphereGeometry(0.15 + Math.random()*0.15, 8), 
-        new THREE.MeshStandardMaterial({ color: 0x5e3a2c, roughness: 0.7, emissive: new THREE.Color(0x2c1a0e), emissiveIntensity: 0.1 }));
-      small.position.set(
-        (Math.random() - 0.5) * 7,
-        (Math.random() * 3) + 0.2,
-        (Math.random() - 0.5) * 5
-      );
-      group.add(small);
-    }
-    
-    scene.add(group);
-    
-    // Estrellas/partículas café
-    const particlesGeo = new THREE.BufferGeometry();
-    const particlesCount = 600;
-    const posArray = new Float32Array(particlesCount * 3);
-    for(let i = 0; i < particlesCount * 3; i += 3) {
-      posArray[i] = (Math.random() - 0.5) * 25;
-      posArray[i+1] = (Math.random() - 0.5) * 15;
-      posArray[i+2] = (Math.random() - 0.5) * 20;
-    }
-    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMat = new THREE.PointsMaterial({
-      size: 0.03,
-      color: 0xd9c2a7,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending
-    });
-    const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
-    scene.add(particlesMesh);
+    const plane = new THREE.Mesh(geometry, material);
+    scene.add(plane);
     
     // Animación
     let clock = new THREE.Clock();
-    
     function animate() {
       requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
       
-      const delta = clock.getDelta();
-      const elapsedTime = performance.now() * 0.001; 
-      
-      // Rotación suave del grupo
-      group.rotation.y = elapsedTime * 0.08;
-      group.rotation.x = Math.sin(elapsedTime * 0.15) * 0.1;
-      
-      // Movimiento de partículas
-      particlesMesh.rotation.y = elapsedTime * 0.02;
-      
-      // Pulsación en esfera principal
-      mainSphere.scale.setScalar(1 + Math.sin(elapsedTime * 1.8) * 0.03);
-      
-      // Toroide rotación extra
-      torus.rotation.z += 0.003;
+      if (material.uniforms) {
+        material.uniforms.uTime.value = elapsedTime;
+      }
       
       renderer.render(scene, camera);
     }
-    
     animate();
     
-    // Ajustar al redimensionar
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -848,7 +966,5 @@
     });
   })();
 </script>
-<!-- Three.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </body>
 </html>

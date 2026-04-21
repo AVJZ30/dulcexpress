@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DulceXpress | Postres Artesanales 3D</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FBF6EF;
+      color: #2C1A0E;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ===== PALETA CAFÉ Y VARIACIONES ===== */
+    :root {
+      --cafe-mas-oscuro: #1F1308;
+      --cafe-oscuro: #3E2A1F;
+      --cafe-intenso: #4F2F1C;
+      --cafe-medio: #5E3A2C;
+      --cafe-capuchino: #8B5E3C;
+      --cafe-lechoso: #B28B6F;
+      --cafe-claro: #D9C2A7;
+      --cafe-crema: #F2E4D5;
+      --dorado-suave: #E0B07F;
+      --sombra-suave: 0 25px 35px -12px rgba(31, 19, 8, 0.2);
+    }
+
+    /* ===== FONDO 3D ANIMADO (mismo color café) ===== */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--cafe-crema);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--cafe-medio);
+      border-radius: 10px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: rgba(31, 19, 8, 0.85);
+      backdrop-filter: blur(16px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(210, 170, 130, 0.4);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #F7E3C0, #D9A066);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      transition: all 0.2s;
+      text-shadow: 0 2px 10px rgba(224,176,127,0.3);
+    }
+    .logo h1:active {
+      transform: scale(0.98);
+    }
+    .logo span {
+      color: #e6cbb0;
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #F5E6D6;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      font-size: 0.95rem;
+      position: relative;
+    }
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--dorado-suave);
+      transition: width 0.25s ease;
+    }
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+    .nav-links a:hover {
+      color: var(--dorado-suave);
+      transform: translateY(-2px);
+    }
+    .nav-links a:active {
+      transform: translateY(1px);
+    }
+    .btn-menu-nav {
+      background: var(--cafe-medio);
+      padding: 8px 20px;
+      border-radius: 40px;
+      border: 1px solid var(--cafe-lechoso);
+      font-weight: 700;
+    }
+    .btn-menu-nav:after {
+      display: none;
+    }
+    .btn-menu-nav:hover {
+      background: var(--cafe-capuchino);
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      color: #F5E6D6;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .menu-icon:active {
+      transform: scale(0.9);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 100px;
+      padding: 60px 0 80px;
+      background: radial-gradient(circle at 90% 20%, rgba(255,241,226,0.7), rgba(244,226,208,0.5));
+      border-radius: 0 0 60px 60px;
+      backdrop-filter: blur(2px);
+      position: relative;
+      z-index: 5;
+    }
+    .hero-grid {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .hero-content .badge {
+      background: var(--cafe-oscuro);
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: #FFE5C8;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: pulseBadge 2.5s infinite;
+    }
+    @keyframes pulseBadge {
+      0% { box-shadow: 0 0 0 0 rgba(224,176,127,0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(224,176,127,0); }
+      100% { box-shadow: 0 0 0 0 rgba(224,176,127,0); }
+    }
+    .hero-content h1 {
+      font-size: 3.6rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--cafe-mas-oscuro);
+      margin-bottom: 1.2rem;
+    }
+    .hero-content h1 span {
+      color: #A45D2E;
+      border-bottom: 4px solid #C97E4A;
+      display: inline-block;
+      transition: all 0.2s;
+      animation: glowText 3s infinite alternate;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 5px #e0b07f; }
+      to { text-shadow: 0 0 18px #d9a066; }
+    }
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary, .btn-outline, .btn-instagram, .btn-menu-big, .order-icon, .whatsapp-btn, .btn-opiniones {
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:active, .btn-outline:active, .btn-instagram:active, .btn-menu-big:active, .order-icon:active, .whatsapp-btn:active, .btn-opiniones:active {
+      transform: scale(0.96);
+    }
+    .btn-primary {
+      background: var(--cafe-oscuro);
+      color: white;
+      padding: 14px 34px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 20px -8px rgba(0,0,0,0.2);
+    }
+    .btn-primary:hover {
+      background: #5A3825;
+      transform: scale(1.02) translateY(-3px);
+      box-shadow: 0 22px 30px -12px rgba(62,42,31,0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--cafe-medio);
+      color: var(--cafe-medio);
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+    }
+    .btn-outline:hover {
+      background: var(--cafe-medio);
+      color: white;
+      transform: translateY(-3px);
+    }
+    .hero-img img {
+      max-width: 100%;
+      filter: drop-shadow(20px 20px 30px rgba(0,0,0,0.2));
+      animation: float 5s ease-in-out infinite;
+      transition: transform 0.3s;
+      border-radius: 30px;
+    }
+    .hero-img img:active {
+      transform: scale(0.98) rotate(1deg);
+    }
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Sección Postres con bordes brillantes */
+    .section-title {
+      text-align: center;
+      margin: 80px 0 40px;
+    }
+    .section-title h2 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--cafe-mas-oscuro);
+      position: relative;
+      display: inline-block;
+    }
+    .section-title h2:after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 25%;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(90deg, #BB7A45, #E6BC94, #BB7A45);
+      border-radius: 4px;
+      transition: width 0.3s;
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+      margin: 40px 0 20px;
+    }
+    .card {
+      background: rgba(255, 248, 240, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 36px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      border: 2px solid transparent;
+      position: relative;
+      animation: cardGlow 4s infinite alternate;
+    }
+    @keyframes cardGlow {
+      0% { border-color: rgba(224,176,127,0.2); box-shadow: 0 10px 25px -5px #b28b6f40; }
+      100% { border-color: rgba(224,176,127,0.7); box-shadow: 0 20px 35px -5px #8b5e3c60, 0 0 0 2px rgba(224,176,127,0.3); }
+    }
+    .card:hover {
+      transform: translateY(-16px) scale(1.01);
+      box-shadow: var(--sombra-suave);
+      border-color: var(--dorado-suave);
+    }
+    .card:active {
+      transform: translateY(-6px) scale(0.99);
+    }
+    .card-img {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+      border-bottom: 3px solid var(--cafe-capuchino);
+    }
+    .card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .card-content {
+      padding: 22px 20px 25px;
+    }
+    .card-content h3 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--cafe-oscuro);
+    }
+    .order-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--cafe-crema);
+      padding: 10px 22px;
+      border-radius: 60px;
+      color: var(--cafe-mas-oscuro);
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 16px;
+      border: 1px solid var(--cafe-lechoso);
+    }
+    .order-icon i {
+      font-size: 1.3rem;
+    }
+    .order-icon:hover {
+      background: var(--cafe-medio);
+      color: white;
+      transform: translateX(6px);
+      box-shadow: 0 10px 20px -8px #3e2a1f;
+    }
+
+    /* CTA */
+    .cta-whatsapp {
+      background: linear-gradient(115deg, #2E1B0F 0%, #4F2F1C 100%);
+      margin: 80px 0;
+      border-radius: 60px;
+      padding: 50px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: all 0.3s;
+      border: 1px solid #b28b6f;
+      box-shadow: 0 30px 35px -12px #1f1308;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      padding: 18px 42px;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1.3rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: #1e2a1f;
+      text-decoration: none;
+      box-shadow: 0 12px 20px -8px #00000050;
+      animation: wiggle 2.2s infinite;
+    }
+    @keyframes wiggle {
+      0%,100%{ transform: rotate(0deg); }
+      2%{ transform: rotate(2deg); }
+      4%{ transform: rotate(-2deg); }
+      6%{ transform: rotate(1deg); }
+      8%{ transform: rotate(0deg); }
+    }
+    .whatsapp-btn:hover {
+      background: #20b859;
+      transform: scale(1.03) translateY(-4px);
+      animation: none;
+    }
+
+    .instagram-showcase, .opiniones-section {
+      background: rgba(246, 237, 227, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 48px;
+      padding: 50px 40px;
+      margin: 60px 0;
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid #d9c2a7;
+    }
+    .insta-highlight {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 30px 0 20px;
+    }
+    .insta-icon-circle {
+      background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      color: white;
+      transition: transform 0.2s;
+      box-shadow: 0 10px 20px #d6297660;
+      animation: rotateGradient 6s infinite alternate;
+    }
+    @keyframes rotateGradient {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(15deg); }
+    }
+    .btn-instagram {
+      background: #1F1308;
+      padding: 14px 36px;
+      border-radius: 60px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #F5E6D6;
+      text-decoration: none;
+    }
+    .btn-instagram:hover {
+      background: #C13584;
+      transform: scale(1.03);
+    }
+    .btn-opiniones {
+      background: var(--cafe-oscuro);
+      padding: 16px 36px;
+      border-radius: 60px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: white;
+      text-decoration: none;
+      margin-top: 20px;
+      border: none;
+      font-size: 1.1rem;
+      box-shadow: 0 12px 18px -10px #2c1a0e;
+    }
+
+    .menu-quick {
+      background: linear-gradient(145deg, #EADBCE, #F4E5D8);
+      border-radius: 48px;
+      padding: 50px 30px;
+      text-align: center;
+      margin-bottom: 60px;
+      border: 1px solid #c9ad93;
+    }
+
+    footer {
+      background: var(--cafe-mas-oscuro);
+      color: #DCC7B0;
+      padding: 50px 0 25px;
+      margin-top: 40px;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* responsive */
+    @media (max-width: 880px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(31, 19, 8, 0.97);
+        backdrop-filter: blur(12px);
+        padding: 20px 0;
+        border-radius: 28px;
+        margin-top: 12px;
+        gap: 1.2rem;
+      }
+      .nav-links.active { display: flex; }
+      .menu-icon { display: block; }
+      .hero-content h1 { font-size: 2.5rem; }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: all 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- FONDO 3D ANIMADO (mismo color café) -->
+<canvas id="canvas-bg"></canvas>
+
+<header>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">
+        <h1>DulceXpress</h1>
+        <span>postres que enamoran</span>
+      </div>
+      <div class="menu-icon" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#">Inicio</a>
+        <a href="#postres">Nuestros postres</a>
+        <a href="#pedido">Pedido Rápido</a>
+        <a href="https://www.instagram.com/dulcexpress_ec/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="menu.html" class="btn-menu-nav">🍰 Menú completo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge">✨ Hecho con amor y chocolate ✨</div>
+        <h1>El placer más <span>dulce</span> a un solo clic</h1>
+        <p>Brownies artesanales, cookies crujientes, cheesecakes cremosos y mosaicos tradicionales. Endulza tu día con DulceXpress.</p>
+        <div class="btn-group">
+          <a href="https://wa.me/593967816041?text=¡Hola!%20Quiero%20hacer%20un%20pedido%20de%20postres%20🥐🍫" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Pedir ahora</a>
+          <a href="#postres" class="btn-outline">Descubrir postres <i class="fas fa-arrow-down"></i></a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="https://i.postimg.cc/N0wLWjT4/dulce-express-hero.png" alt="Postres DulceXpress" onerror="this.src='https://placehold.co/500x400/DFC8B0/3E2A1F?text=DulceXpress+Postres'">
+      </div>
+    </div>
+  </section>
+
+  <div class="container" id="postres">
+    <div class="section-title fade-up">
+      <h2>Nuestras especialidades</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="card fade-up delay-1">
+        <div class="card-img" style="background-image: url('https://i.postimg.cc/Dy3DnqLQ/brownie-chocolate.jpg');"></div>
+        <div class="card-content">
+          <h3>Brownie</h3>
+          <p>Intenso, húmedo y con chispas de chocolate belga.</p>
+          <a href="https://wa.me/593967816041?text=Hola!%20Quiero%20pedir%20el%20BROWNIE%20de%20DulceXpress." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Brownie</a>
+        </div>
+      </div>
+      <div class="card fade-up delay-2">
+        <div class="card-img" style="background-image: url('https://i.postimg.cc/PqRjPj0H/cookies-dulces.jpg');"></div>
+        <div class="card-content">
+          <h3>Cookies</h3>
+          <p>Crujientes por fuera, suaves por dentro. Con gotas de chocolate.</p>
+          <a href="https://wa.me/593967816041?text=¡Quiero%20ordenar%20COOKIES%20de%20DulceXpress!" class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cookies</a>
+        </div>
+      </div>
+      <div class="card fade-up delay-3">
+        <div class="card-img" style="background-image: url('https://i.postimg.cc/WbLBj9MP/cheesecake-frambuesa.jpg');"></div>
+        <div class="card-content">
+          <h3>Cheesecake</h3>
+          <p>Suave, cremoso y con base de galleta. ¡Irresistible!</p>
+          <a href="https://wa.me/593967816041?text=Me%20encanta%20el%20CHEESECAKE%20de%20DulceXpress,%20quiero%20pedir." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Cheesecake</a>
+        </div>
+      </div>
+      <div class="card fade-up delay-4">
+        <div class="card-img" style="background-image: url('https://i.postimg.cc/DZQ0gYyN/mosaico-gelatina.jpg');"></div>
+        <div class="card-content">
+          <h3>Mosaico</h3>
+          <p>Postre tradicional de gelatinas y leche, un favorito de la casa.</p>
+          <a href="https://wa.me/593967816041?text=Quiero%20probar%20el%20MOSAICO%20de%20DulceXpress,%20por%20favor." class="order-icon" target="_blank"><i class="fab fa-whatsapp"></i> Pedir Mosaico</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="pedido">
+    <div class="cta-whatsapp fade-up">
+      <div class="cta-text">
+        <h3><i class="fas fa-mug-hot"></i> ¿Antojo instantáneo?</h3>
+        <p>Escoge tu postre favorito y te lo llevamos a casa. Pago contraentrega.<br> <strong>Respuesta rápida por WhatsApp</strong></p>
+      </div>
+      <a href="https://wa.me/593967816041?text=¡Hola%20DulceXpress!%20Quiero%20hacer%20un%20pedido%20de%20postres%20🧁🍪" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp fa-2x"></i> Pedir por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="instagram-showcase fade-up">
+      <h3><i class="fab fa-instagram"></i> Síguenos en Instagram</h3>
+      <div class="insta-highlight">
+        <div class="insta-icon-circle">
+          <i class="fab fa-instagram"></i>
+        </div>
+        <div class="insta-text">
+          <p>Descubre promociones exclusivas, nuevos sabores y el behind the scenes de nuestros postres. 🍪✨</p>
+          <p><strong>@dulcexpress_ec</strong></p>
+        </div>
+      </div>
+      <a href="https://www.instagram.com/dulcexpress_ec/" class="btn-instagram" target="_blank">
+        <i class="fab fa-instagram"></i> Ver nuestro perfil
+      </a>
+    </div>
+
+    <div class="opiniones-section fade-up">
+      <h3><i class="fas fa-star"></i> Conoce las opiniones de nuestros clientes</h3>
+      <p style="margin: 20px auto; max-width: 600px;">La satisfacción de nuestros clientes es lo más importante. Descubre lo que opinan sobre nuestros postres y el servicio DulceXpress.</p>
+      <a href="opiniones.html" class="btn-opiniones">
+        <i class="fas fa-comment-dots"></i> Ver todas las opiniones →
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="menu-quick fade-up">
+      <h3>🍫 ¿Quieres ver todas las variedades? 🍪</h3>
+      <p>En nuestro menú completo encontrarás combos, tamaños familiares y ediciones especiales. ¡Haz clic y descubre más!</p>
+      <a href="menu.html" class="btn-menu-big"><i class="fas fa-book-open"></i> Ver Menú Completo →</a>
+      <p style="margin-top: 1.5rem;"><i class="fab fa-whatsapp"></i> +593 96 781 6041 · <i class="fab fa-instagram"></i> @dulcexpress_ec</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <h3>DulceXpress</h3>
+        <p>Endulzando momentos desde 2024</p>
+        <div style="margin-top: 10px;">
+          <a href="https://www.instagram.com/dulcexpress_ec/" target="_blank" style="color:#DCC7B0; font-size:1.4rem; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/593967816041" target="_blank" style="color:#DCC7B0; font-size:1.4rem;"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Inicio</a>
+        <a href="#postres">Postres</a>
+        <a href="menu.html">Menú</a>
+        <a href="opiniones.html"><i class="fas fa-star"></i> Opiniones</a>
+        <a href="https://www.instagram.com/dulcexpress_ec/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://wa.me/593967816041" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>© 2025 DulceXpress – Hecho con <i class="fas fa-heart" style="color:#C97E4A;"></i> y mucha pasión. | WhatsApp: +593 96 781 6041 | IG: @dulcexpress_ec</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    // MENU MOBILE
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if(menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // SCROLL REVEAL
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    fadeElements.forEach(el => observer.observe(el));
+
+    // HEADER SCROLL
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.style.background = "rgba(31, 19, 8, 0.96)";
+      } else {
+        header.style.background = "rgba(31, 19, 8, 0.85)";
+      }
+    });
+
+    // ===== FONDO 3D CON THREE.JS (MISMO COLOR CAFÉ) =====
+    const canvas = document.getElementById('canvas-bg');
+    const scene = new THREE.Scene();
+    scene.background = null; // transparente para ver el fondo café
+    
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 12);
+    
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Luces suaves
+    const ambientLight = new THREE.AmbientLight(0x8b5e3c, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xe0b07f, 0.8);
+    dirLight.position.set(2, 5, 5);
+    scene.add(dirLight);
+    const backLight = new THREE.PointLight(0xb28b6f, 0.5);
+    backLight.position.set(-3, 1, 2);
+    scene.add(backLight);
+    
+    // Grupo de objetos (esferas/toros) en tonos café
+    const group = new THREE.Group();
+    
+    // Esfera principal ondulada (con geometría esférica + ruido)
+    const sphereGeo = new THREE.SphereGeometry(2.0, 64, 32);
+    const sphereMat = new THREE.MeshStandardMaterial({ 
+      color: 0xb28b6f, 
+      roughness: 0.3, 
+      metalness: 0.05,
+      emissive: new THREE.Color(0x4f2f1c),
+      emissiveIntensity: 0.2,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.55
+    });
+    const mainSphere = new THREE.Mesh(sphereGeo, sphereMat);
+    mainSphere.position.y = 0.5;
+    group.add(mainSphere);
+    
+    // Toroide decorativo (anillo café)
+    const torusGeo = new THREE.TorusGeometry(2.8, 0.25, 20, 100);
+    const torusMat = new THREE.MeshStandardMaterial({ color: 0x8b5e3c, roughness: 0.4, emissive: new THREE.Color(0x3e2a1f), emissiveIntensity: 0.15 });
+    const torus = new THREE.Mesh(torusGeo, torusMat);
+    torus.rotation.x = Math.PI / 2;
+    torus.rotation.y = 0.8;
+    torus.position.y = 0.8;
+    group.add(torus);
+    
+    // Pequeñas esferas flotantes (como migas de chocolate)
+    for(let i = 0; i < 18; i++) {
+      const small = new THREE.Mesh(new THREE.SphereGeometry(0.15 + Math.random()*0.15, 8), 
+        new THREE.MeshStandardMaterial({ color: 0x5e3a2c, roughness: 0.7, emissive: new THREE.Color(0x2c1a0e), emissiveIntensity: 0.1 }));
+      small.position.set(
+        (Math.random() - 0.5) * 7,
+        (Math.random() * 3) + 0.2,
+        (Math.random() - 0.5) * 5
+      );
+      group.add(small);
+    }
+    
+    scene.add(group);
+    
+    // Estrellas/partículas café
+    const particlesGeo = new THREE.BufferGeometry();
+    const particlesCount = 600;
+    const posArray = new Float32Array(particlesCount * 3);
+    for(let i = 0; i < particlesCount * 3; i += 3) {
+      posArray[i] = (Math.random() - 0.5) * 25;
+      posArray[i+1] = (Math.random() - 0.5) * 15;
+      posArray[i+2] = (Math.random() - 0.5) * 20;
+    }
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMat = new THREE.PointsMaterial({
+      size: 0.03,
+      color: 0xd9c2a7,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending
+    });
+    const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(particlesMesh);
+    
+    // Animación
+    let clock = new THREE.Clock();
+    
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      const delta = clock.getDelta();
+      const elapsedTime = performance.now() * 0.001; 
+      
+      // Rotación suave del grupo
+      group.rotation.y = elapsedTime * 0.08;
+      group.rotation.x = Math.sin(elapsedTime * 0.15) * 0.1;
+      
+      // Movimiento de partículas
+      particlesMesh.rotation.y = elapsedTime * 0.02;
+      
+      // Pulsación en esfera principal
+      mainSphere.scale.setScalar(1 + Math.sin(elapsedTime * 1.8) * 0.03);
+      
+      // Toroide rotación extra
+      torus.rotation.z += 0.003;
+      
+      renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Ajustar al redimensionar
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  })();
+</script>
+<!-- Three.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</body>
+</html>
